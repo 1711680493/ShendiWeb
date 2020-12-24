@@ -1,16 +1,17 @@
 ﻿# Shendi Web 库
 >version 1.0<br>
->[引导页面](https://1711680493.github.io)<br>
+>[sw v1.0](https://1711680493.github.io) change in 2020-12-23<br>
 
 >sw.js		未压缩整合文件<br>
 >sw.min.js	压缩整合文件<br>
 
->全局变量 sw.<br>
->例如Ajax,可通过 ajax,或sw.ajax来使用
+>包含其他模块的引用,例如Ajax,可通过 ajax 直接使用<br>
+>全局变量 sw,例如Ajax,可通过sw.ajax来使用<br>
+>甚至可以直接使用其内函数/属性,例如ajax.$, 可通过 sw.$ 使用
 
 #### [Ajax](Ajax)
->封装了对 ajax 的操作<br>
->>提供默认请求,post请求,可选是否跨域等
+>封装了对 ajax 的操作
+>>提供默认请求,post请求,可选是否跨域,以及自定义Ajax
 
 #### [Cookie](Cookie)
 >封装了对 Cookie 的操作
