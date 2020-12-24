@@ -60,16 +60,18 @@
 		<td>type</td>
 		<td>请求的类型</td>
         <td>参考 HTTP 类型,例如GET/POST/HEAD...</td>
-        <td>GET<td>
+        <td>GET</td>
 	</tr>
 	<tr>
 		<td>url</td>
 		<td>访问地址</td>
+        <td>与浏览器URL一致</td>
         <td>#</td>
 	</tr>
 	<tr>
 		<td>async</td>
 		<td>是否异步</td>
+        <td>true异步,false同步,同步时浏览器页面将停止</td>
         <td>true</td>
 	</tr>
 	<tr>
@@ -79,16 +81,19 @@
             对于字符串形式,格式为 k=v&k=v&k=v<br>
             对于Object格式,一键对多值可传递数组 {key:[value1,value2]}
         </td>
+        <td>与浏览器的参数一致</td>
         <td>null<td>
 	</tr>
 	<tr>
 		<td>crossDomain</td>
 		<td>是否允许跨域 true 允许</td>
+        <td>当ajax请求不在同一个域的资源就会出现跨域问题,就需要设置此</td>
         <td>true</td>
 	</tr>
 	<tr>
 		<td>timeout</td>
 		<td>单位毫秒,0为不超时,async必须为true才能设置</td>
+        <td>当操作可能遇到不可预知的情况而连接长时间不关闭可设置此属性</td>
         <td>0</td>
 	</tr>
     <tr>
@@ -97,6 +102,7 @@
             设置请求头,格式为Object,如果类型为 POST 且 param 类型为 Object/String<br>
             则默认会设置请求头 Content-Type为 application/x-www-form-urlencoded
         </td>
+        <td>HTTP请求头</td>
         <td>null</td>
 	</tr>
     <tr>
@@ -112,16 +118,19 @@
                 <li>json(JSON转换为Object,可直接使用)</li>
             </ul>
         </td>
+        <td>服务器响应的数据类型</td>
         <td>text</td>
 	</tr>
     <tr>
 		<td>uname</td>
 		<td>请求用户名(一般不用)</td>
+        <td>HTTP需要登录验证</td>
         <td>null</td>
 	</tr>
     <tr>
 		<td>pwd</td>
 		<td>请求密码(一般不用)</td>
+        <td>HTTP需要登录验证</td>
         <td>null</td>
 	</tr>
 </table>
