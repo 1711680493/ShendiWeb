@@ -82,7 +82,7 @@
             对于Object格式,一键对多值可传递数组 {key:[value1,value2]}
         </td>
         <td>与浏览器的参数一致</td>
-        <td>null<td>
+        <td>null</td>
 	</tr>
 	<tr>
 		<td>crossDomain</td>
