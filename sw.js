@@ -170,7 +170,7 @@ var cookie = {
 		date.setTime(date.getTime() - 1);
 		var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
 		if (keys) {
-			for (var i =  keys.length; i--;) document.cookie=keys[i] + "=; expires=" + date.toGMTString();
+			for (var i = keys.length; i--;) document.cookie=keys[i] + "=;path=/;expires=" + date.toGMTString();
 		}
 	}
 };
