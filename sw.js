@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
  * sw v1.0 (https://1711680493.github.io)
- * changed in 2020-12-24
+ * changed in 2020-12-25
  * @author Shendi
  */
 var sw;
@@ -173,7 +173,7 @@ var win = {
 /**
  * 封装了对 ajax 的操作
  * ajax v1.0 (https://1711680493.github.io)
- * changed in 2020-12-24
+ * changed in 2020-12-25
  * @author Shendi
  */
 var ajax = {
@@ -190,7 +190,7 @@ var ajax = {
 	 * @param {String} data 请求的数据,一般用于POST请求
 	 * @param {boolean} crossDomain 是否允许跨域
 	 */
-	req : function (type, url, callback, sync, data, crossDomain) {
+	req : function (type, url, callback, async, data, crossDomain) {
 		var xhr = ajax.xhr();
 		xhr.withCredentials = crossDomain == true;
 		if (callback != null) {
@@ -252,7 +252,7 @@ var ajax = {
 			if (obj.pwd) pwd = obj.pwd;
 			param = obj.param;
 			if (obj.heads) heads = obj.heads;
-			xhr.withCredentials = obj.crossDomain ? true : obj.crossDomain;
+			xhr.withCredentials = obj.crossDomain ? obj.crossDomain : true;
 			if (obj.timeout && obj.async) xhr.timeout = obj.timeout;
 			if (obj.respType) xhr.responseType = obj.respType;
 
