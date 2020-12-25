@@ -6,37 +6,58 @@
 
 ## API
 #### cookie.add(key, value, time, path, domain, more);
->添加Cookie<br>
+>添加Cookie
+
 <table>
 	<tr>
 		<th>参数</th>
 		<th>描述</th>
+		<th>默认值</th>
 	</tr>
 	<tr>
 		<td>key</td>
 		<td>键</td>
+		<td>必要的</td>
 	</tr>
 	<tr>
 		<td>value</td>
 		<td>值</td>
+		<td>必要的</td>
 	</tr>
 	<tr>
 		<td>time</td>
 		<td>可选,有效时间,单位毫秒</td>
+		<td>浏览器关闭后失效</td>
 	</tr>
 	<tr>
 		<td>path</td>
-		<td>可选,有效路径,默认为/</td>
+		<td>可选,有效路径</td>
+		<td>/</td>
 	</tr>
 	<tr>
 		<td>domain</td>
 		<td>可选,跨域共享地址 例如子域名的根域名</td>
+		<td>null</td>
 	</tr>
 	<tr>
 		<td>more</td>
 		<td>可选,更多参数,遵循document.cookie = "",例如 expires=time;path=/</td>
 	</tr>
 </table>
+
+>为了明确调用,可以传递 Object 的形式,参数与上一致,例如
+
+<pre>
+	cookie.add({
+		key : "cookie name",
+		value : "cookie value",
+		// 86400000毫秒为一天
+		time : 86400000,
+		path : "/html",
+		domain : "localhost",
+		// 可扩展参数,会自动追加到cookie后,参考 document.cookie
+	});
+</pre>
 
 #### cookie.get(key, isEncode);
 >获取对应Cookie<br>

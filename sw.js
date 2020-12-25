@@ -57,27 +57,64 @@ var loading;
 /**
  * 封装了对 cookie 的操作
  * cookie v1.0 (https://1711680493.github.io)
- * changed in 2020-12-8
+ * changed in 2020-12-25
  * @author Shendi
  */
 var cookie = {
 	/** 添加Cookie */
 	add : function (key, value, time, path, domain, more) {
-		var s = escape(btoa(key)) + "=" + escape(btoa(value));
-		if (time != null) {
-			var date = new Date();
-			date.setTime(date.getTime() + time);
-			s += ";expires=" + date.toGMTString();
+		if (!key) return;
+
+		var s;
+
+		// key如果为Object类型则进行格外操作
+		if (typeof(key) == "object" && Object.prototype.toString.call(key).toLowerCase() == "[object object]" && !key.length) {
+			if (!key.key || !key.value) return;
+			s = escape(btoa(key.key)) + "=" + escape(btoa(key.value));
+
+			var keys = Object.keys(key);
+
+			// 遍历,将其余参数添加
+			for (var i = 0; i <  keys.length; i++) {
+				var k = keys[i];
+				var ku = k.toUpperCase();
+				if (ku == "KEY" || ku == "VALUE") {
+					continue;
+				}
+
+				var value = key[k];
+
+				// 时间与路径做格外处理
+				if (ku == "TIME") {
+					var date = new Date();
+					date.setDate(date.getTime + value);
+					s += ";expires=" + date.toGMTString();
+				} else if (ku == "PATH") {
+					path = value;
+				} else {
+					s += ";" + k + "=" + value;
+				}
+			}
+
+		} else {
+			if (!value) return;
+
+			s = escape(btoa(key)) + "=" + escape(btoa(value));
+			
+			if (time) {
+				var date = new Date();
+				date.setTime(date.getTime() + time);
+				s += ";expires=" + date.toGMTString();
+			}
+			
+			if (domain) s += ";domain=" + domain;
+			if (more) s += ";" + more;
 		}
-		if (path != null) {
-			s += ";path=" + path;
-		}
-		if (domain != null) {
-			s += ";domain=" + domain;
-		}
-		if (more != null) {
-			s += ";" + more;
-		}
+
+		// path 默认为 /
+		if (!path) path = "/";
+		s += ";path=" + path;
+
 		document.cookie = s;
 	},
 	/**
