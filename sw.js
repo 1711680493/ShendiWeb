@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
  * sw v1.0 (https://1711680493.github.io)
- * changed in 2020-12-25
+ * changed in 2021-1-3
  * @author Shendi
  */
 var sw;
@@ -210,7 +210,7 @@ var win = {
 /**
  * 封装了对 ajax 的操作
  * ajax v1.0 (https://1711680493.github.io)
- * changed in 2020-12-25
+ * changed in 2021-1-3
  * @author Shendi
  */
 var ajax = {
@@ -237,7 +237,7 @@ var ajax = {
 				}
 			};
 		}
-		xhr.open(type, url, async==false);
+		xhr.open(type, url, async == null ? true : async);
 		xhr.send(data);
 	},
 	/**
@@ -258,7 +258,7 @@ var ajax = {
 				}
 			};
 		}
-		xhr.open("POST", url, async==true);
+		xhr.open("POST", url, async == null ? true : false);
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(data);
 	},
@@ -284,7 +284,7 @@ var ajax = {
 			// 初始化 xhr
 			if (obj.type) type = obj.type;
 			if (obj.url) url = obj.url;
-			if (obj.async) async = obj.async;
+			async = async == null ? true : async
 			if (obj.uname) uname = obj.uname;
 			if (obj.pwd) pwd = obj.pwd;
 			param = obj.param;
@@ -292,6 +292,9 @@ var ajax = {
 			xhr.withCredentials = obj.crossDomain ? obj.crossDomain : true;
 			if (obj.timeout && obj.async) xhr.timeout = obj.timeout;
 			if (obj.respType) xhr.responseType = obj.respType;
+
+			// 参数添加在url上还是内容里,true为url,false为内容
+			var paramPos = type.toUpperCase() != "POST";
 
 			// post 请求增加请求头 Content-Type,在参数为JSON/字符串时调用
 			function postAddHead () {
@@ -388,7 +391,10 @@ var ajax = {
 		}
 		
 		try {
-			xhr.open(type, url, async, uname, pwd);
+			if (paramPos) {
+				xhr.open(type, url + '?' + param, async, uname, pwd);
+				param = null;
+			} else xhr.open(type, url, async, uname, pwd);
 
 			if (isAddHead) xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 			if (heads) {

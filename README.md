@@ -1,6 +1,6 @@
 ﻿# Shendi Web 库
 >version 1.0<br>
->[sw v1.0](https://1711680493.github.io) change in 2020-12-23<br>
+>[sw v1.0](https://1711680493.github.io) change in 2020-1-2<br>
 
 >sw.js		未压缩整合文件<br>
 >sw.min.js	压缩整合文件<br>

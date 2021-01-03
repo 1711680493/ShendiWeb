@@ -1,7 +1,7 @@
 # Ajax 封装类
 >ajax.js是源码<br>
 >ajax.min.js是压缩后的文件,实际应用使用这个<br>
->[ajax v1.0](https://1711680493.github.io) change in 2020-12-23
+>[ajax v1.0](https://1711680493.github.io) change in 2021-1-2
 
 ## API
 #### ajax.xhr();
