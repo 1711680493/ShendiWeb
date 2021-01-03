@@ -75,7 +75,7 @@ var ajax = {
 			// 初始化 xhr
 			if (obj.type) type = obj.type;
 			if (obj.url) url = obj.url;
-			async = async == null ? true : async
+			async = async == null ? true : obj.async;
 			if (obj.uname) uname = obj.uname;
 			if (obj.pwd) pwd = obj.pwd;
 			param = obj.param;
