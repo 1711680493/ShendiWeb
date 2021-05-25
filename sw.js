@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
  * sw v1.0 (https://1711680493.github.io)
- * changed in 2021-1-3
+ * changed in 2021-5-25
  * @author Shendi
  */
 var sw;
@@ -57,7 +57,7 @@ var loading;
 /**
  * 封装了对 cookie 的操作
  * cookie v1.0 (https://1711680493.github.io)
- * changed in 2020-12-25
+ * changed in 2021-5-25
  * @author Shendi
  */
 var cookie = {
@@ -70,7 +70,7 @@ var cookie = {
 		// key如果为Object类型则进行格外操作
 		if (typeof(key) == "object" && Object.prototype.toString.call(key).toLowerCase() == "[object object]" && !key.length) {
 			if (!key.key || !key.value) return;
-			s = escape(btoa(key.key)) + "=" + escape(btoa(key.value));
+			s = escape(btoa(escape(key.key))) + "=" + escape(btoa(escape(key.value)));
 
 			var keys = Object.keys(key);
 
@@ -99,7 +99,7 @@ var cookie = {
 		} else {
 			if (!value) return;
 
-			s = escape(btoa(key)) + "=" + escape(btoa(value));
+			s = escape(btoa(escape(key))) + "=" + escape(btoa(escape(value)));
 			
 			if (time) {
 				var date = new Date();
@@ -127,8 +127,8 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == atob(unescape(map[0]))) {
-					return isEncode == null ? escape(atob(unescape(map[1]))) : atob(unescape(map[1]));
+				if (key == unescape(atob(unescape(map[0])))) {
+					return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
 				}
 			}
 		}
@@ -140,10 +140,10 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == atob(unescape(map[0]))) {
+				if (key == unescape(atob(unescape(map[0])))) {
 					var date = new Date();
 					date.setTime(date.getTime()-1);
-					document.cookie = escape(btoa(key)) + "=;expires=" + date.toGMTString();
+					document.cookie = escape(btoa(escape(key))) + "=;expires=" + date.toGMTString();
 				}
 			}
 		}
@@ -154,7 +154,7 @@ var cookie = {
 		if (c == "") return false;
 		var cookies = c.split(";");
 		for (let i = 0; i < cookies.length; i++) {
-			if (key == atob(unescape(cookies[i].split("=")[0]))) {
+			if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
 				return true;
 			}
 		}
@@ -177,9 +177,11 @@ var cookie = {
 
 /**
  * 封装了对窗口的操作.
+ * win v1.0 (https://1711680493.github.io)
+ * changed in 2021-5-14
  * @author Shendi
  */
-var win = {
+ var win = {
 	/**
 	 * 在新窗口中打开一个连接
 	 * @param url 请求路径
@@ -187,7 +189,7 @@ var win = {
 	 * @param param 请求参数,格式为name=value&name=value...
 	 */
 	open : function (url, type, param) {
-		var form = document.createElement("form");     
+		var form = document.createElement("form");
 		form.action = url;
 		form.target = "_blank";
 		form.method = type;
@@ -204,13 +206,25 @@ var win = {
 		document.body.appendChild(form);
 		form.submit();
 		document.body.removeChild(form);
+	},
+
+	/**
+	 * 获取url的参数.
+	 * @param {string} name 
+	 * @returns 指定参数的值
+	 */
+	getUrlParam : function (name) {
+		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+        var r = window.location.search.substr(1).match(reg);
+        if (r != null) return decodeURI(r[2]); return null;
 	}
 };
+
 
 /**
  * 封装了对 ajax 的操作
  * ajax v1.0 (https://1711680493.github.io)
- * changed in 2021-1-3
+ * changed in 2021-1-21
  * @author Shendi
  */
 var ajax = {
@@ -233,7 +247,7 @@ var ajax = {
 		if (callback != null) {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
-					callback(xhr.responseText, xhr.status, xhr);
+					callback(xhr.response, xhr.status, xhr);
 				}
 			};
 		}
@@ -254,11 +268,11 @@ var ajax = {
 		if (callback != null) {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
-					callback(xhr.responseText, xhr.status, xhr);
+					callback(xhr.response, xhr.status, xhr);
 				}
 			};
 		}
-		xhr.open("POST", url, async == null ? true : false);
+		xhr.open("POST", url, async == null ? true : async);
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(data);
 	},
@@ -284,12 +298,12 @@ var ajax = {
 			// 初始化 xhr
 			if (obj.type) type = obj.type;
 			if (obj.url) url = obj.url;
-			async = async == null ? true : obj.async;
+			async = obj.async == null ? true : obj.async;
 			if (obj.uname) uname = obj.uname;
 			if (obj.pwd) pwd = obj.pwd;
 			param = obj.param;
 			if (obj.heads) heads = obj.heads;
-			xhr.withCredentials = obj.crossDomain ? obj.crossDomain : true;
+			xhr.withCredentials = obj.crossDomain == null ? true : obj.crossDomain;
 			if (obj.timeout && obj.async) xhr.timeout = obj.timeout;
 			if (obj.respType) xhr.responseType = obj.respType;
 
@@ -348,11 +362,11 @@ var ajax = {
 			xhr.onreadystatechange = function () {
 				if (obj.callback) obj.callback(xhr);
 				if (xhr.readyState == 4) {
-					if (obj.finish) obj.finish(xhr.responseText, xhr.status, xhr);
+					if (obj.finish) obj.finish(xhr.response, xhr.status, xhr);
 
 					// error 回调
 					if (obj.error && xhr.status >= 500) {
-						obj.error(xhr.responseText, xhr.status, xhr.statusText, xhr);
+						obj.error(xhr.response, xhr.status, xhr.statusText, xhr);
 					}
 				}
 			};
@@ -372,9 +386,9 @@ var ajax = {
 			// 完成回调部分
 			xhr.onload = function () {
 				if (obj.success && (xhr.status == 200 || xhr.status == 304)) {
-					obj.success(xhr.responseText, xhr.status, xhr);
+					obj.success(xhr.response, xhr.status, xhr);
 				}
-				if (obj.onload) obj.onload(xhr.responseText, xhr.status, xhr);
+				if (obj.onload) obj.onload(xhr.response, xhr.status, xhr);
 			};
 
 			// 下载上传回调部分
@@ -391,7 +405,7 @@ var ajax = {
 		}
 		
 		try {
-			if (paramPos) {
+			if (param && paramPos) {
 				xhr.open(type, url + '?' + param, async, uname, pwd);
 				param = null;
 			} else xhr.open(type, url, async, uname, pwd);
@@ -406,6 +420,32 @@ var ajax = {
 			console.log("ajax error: " + e);
 		}
 	}
+};
+
+/**
+ * 提供对字符串的简易操作.
+ * text v1.0 (https://1711680493.github.io)
+ * changed in 2021-2-20
+ * @author Shendi
+ */
+var text = {
+    /**
+     * 将字符串内的 HTML 代码转义,用于防止 xxs 攻击.
+     * @param {string} txt 字符串
+     */
+    tohtml : function (txt) {
+        
+    },
+    /**
+     * 将字符串转为 JSON/JSONArray,会将 \r\n 等特殊字符转义.
+     * @param {string} txt 字符串
+     */
+    tojson : function (txt) {
+        if (txt == null) return null;
+        return txt.trim().indexOf[0] == '['
+            ? eval(txt.replace(/\r/g, "\\r").replace(/\n/g, "\\n"))
+            : eval('(' + txt.replace(/\r/g, "\\r").replace(/\n/g, "\\n") + ')');
+    }
 };
 
 sw = {
@@ -433,10 +473,14 @@ sw = {
 
 	// win
 	open : win.open,
+	getUrlParam : win.getUrlParam,
 
 	// ajax
 	xhr : ajax.xhr,
 	req : ajax.req,
 	post : ajax.post,
-	$ : ajax.$
+	$ : ajax.$,
+
+	// text
+	tojson : text.tojson
 };

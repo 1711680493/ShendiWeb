@@ -1,7 +1,7 @@
 /**
  * 封装了对 cookie 的操作
  * cookie v1.0 (https://1711680493.github.io)
- * changed in 2020-12-25
+ * changed in 2021-5-25
  * @author Shendi
  */
 var cookie = {
@@ -14,7 +14,7 @@ var cookie = {
 		// key如果为Object类型则进行格外操作
 		if (typeof(key) == "object" && Object.prototype.toString.call(key).toLowerCase() == "[object object]" && !key.length) {
 			if (!key.key || !key.value) return;
-			s = escape(btoa(key.key)) + "=" + escape(btoa(key.value));
+			s = escape(btoa(escape(key.key))) + "=" + escape(btoa(escape(key.value)));
 
 			var keys = Object.keys(key);
 
@@ -43,7 +43,7 @@ var cookie = {
 		} else {
 			if (!value) return;
 
-			s = escape(btoa(key)) + "=" + escape(btoa(value));
+			s = escape(btoa(escape(key))) + "=" + escape(btoa(escape(value)));
 			
 			if (time) {
 				var date = new Date();
@@ -71,8 +71,8 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == atob(unescape(map[0]))) {
-					return isEncode == null ? escape(atob(unescape(map[1]))) : atob(unescape(map[1]));
+				if (key == unescape(atob(unescape(map[0])))) {
+					return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
 				}
 			}
 		}
@@ -84,10 +84,10 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == atob(unescape(map[0]))) {
+				if (key == unescape(atob(unescape(map[0])))) {
 					var date = new Date();
 					date.setTime(date.getTime()-1);
-					document.cookie = escape(btoa(key)) + "=;expires=" + date.toGMTString();
+					document.cookie = escape(btoa(escape(key))) + "=;expires=" + date.toGMTString();
 				}
 			}
 		}
@@ -98,7 +98,7 @@ var cookie = {
 		if (c == "") return false;
 		var cookies = c.split(";");
 		for (let i = 0; i < cookies.length; i++) {
-			if (key == atob(unescape(cookies[i].split("=")[0]))) {
+			if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
 				return true;
 			}
 		}

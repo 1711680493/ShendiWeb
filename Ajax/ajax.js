@@ -1,7 +1,7 @@
 /**
  * 封装了对 ajax 的操作
  * ajax v1.0 (https://1711680493.github.io)
- * changed in 2021-1-3
+ * changed in 2021-1-21
  * @author Shendi
  */
 var ajax = {
@@ -24,7 +24,7 @@ var ajax = {
 		if (callback != null) {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
-					callback(xhr.responseText, xhr.status, xhr);
+					callback(xhr.response, xhr.status, xhr);
 				}
 			};
 		}
@@ -45,11 +45,11 @@ var ajax = {
 		if (callback != null) {
 			xhr.onreadystatechange = function () {
 				if (xhr.readyState == 4) {
-					callback(xhr.responseText, xhr.status, xhr);
+					callback(xhr.response, xhr.status, xhr);
 				}
 			};
 		}
-		xhr.open("POST", url, async == null ? true : false);
+		xhr.open("POST", url, async == null ? true : async);
 		xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 		xhr.send(data);
 	},
@@ -75,12 +75,12 @@ var ajax = {
 			// 初始化 xhr
 			if (obj.type) type = obj.type;
 			if (obj.url) url = obj.url;
-			async = async == null ? true : obj.async;
+			async = obj.async == null ? true : obj.async;
 			if (obj.uname) uname = obj.uname;
 			if (obj.pwd) pwd = obj.pwd;
 			param = obj.param;
 			if (obj.heads) heads = obj.heads;
-			xhr.withCredentials = obj.crossDomain ? obj.crossDomain : true;
+			xhr.withCredentials = obj.crossDomain == null ? true: obj.crossDomain;
 			if (obj.timeout && obj.async) xhr.timeout = obj.timeout;
 			if (obj.respType) xhr.responseType = obj.respType;
 
@@ -139,11 +139,11 @@ var ajax = {
 			xhr.onreadystatechange = function () {
 				if (obj.callback) obj.callback(xhr);
 				if (xhr.readyState == 4) {
-					if (obj.finish) obj.finish(xhr.responseText, xhr.status, xhr);
+					if (obj.finish) obj.finish(xhr.response, xhr.status, xhr);
 
 					// error 回调
 					if (obj.error && xhr.status >= 500) {
-						obj.error(xhr.responseText, xhr.status, xhr.statusText, xhr);
+						obj.error(xhr.response, xhr.status, xhr.statusText, xhr);
 					}
 				}
 			};
@@ -163,9 +163,9 @@ var ajax = {
 			// 完成回调部分
 			xhr.onload = function () {
 				if (obj.success && (xhr.status == 200 || xhr.status == 304)) {
-					obj.success(xhr.responseText, xhr.status, xhr);
+					obj.success(xhr.response, xhr.status, xhr);
 				}
-				if (obj.onload) obj.onload(xhr.responseText, xhr.status, xhr);
+				if (obj.onload) obj.onload(xhr.response, xhr.status, xhr);
 			};
 
 			// 下载上传回调部分
@@ -182,7 +182,7 @@ var ajax = {
 		}
 		
 		try {
-			if (paramPos) {
+			if (param && paramPos) {
 				xhr.open(type, url + '?' + param, async, uname, pwd);
 				param = null;
 			} else xhr.open(type, url, async, uname, pwd);

@@ -1,6 +1,6 @@
 ﻿# Shendi Web 库
 >version 1.0<br>
->[sw v1.0](https://1711680493.github.io) change in 2020-1-2<br>
+>[sw v1.0](https://1711680493.github.io) change in 2020-2-20<br>
 
 >sw.js		未压缩整合文件<br>
 >sw.min.js	压缩整合文件<br>
@@ -23,3 +23,7 @@
 #### [Win](Win)
 >封装了对窗口的操作
 >>在新窗口以Post请求打开页面等
+
+#### [Text](Text)
+>字符串工具
+>>可将字符串转json等
