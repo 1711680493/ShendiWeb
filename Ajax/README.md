@@ -102,7 +102,7 @@
             设置请求头,格式为Object,如果类型为 POST 且 param 类型为 Object/String<br>
             则默认会设置请求头 Content-Type为 application/x-www-form-urlencoded
         </td>
-        <td>HTTP请求头</td>
+        <td>HTTP请求头<(注:请求头不允许中文等字符,请使用编码函数进行编码,例如 encodeURI())</td>
         <td>null</td>
 	</tr>
     <tr>
@@ -134,6 +134,7 @@
         <td>null</td>
 	</tr>
 </table>
+
 
 >事件
 
