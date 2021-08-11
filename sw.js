@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
  * sw v1.0 (https://1711680493.github.io)
- * changed in 2021-5-25
+ * changed in 2021-08-12
  * @author Shendi
  */
 var sw;
@@ -57,10 +57,10 @@ var loading;
 /**
  * 封装了对 cookie 的操作
  * cookie v1.0 (https://1711680493.github.io)
- * changed in 2021-5-25
+ * changed in 2021-08-12
  * @author Shendi
  */
-var cookie = {
+ var cookie = {
 	/** 添加Cookie */
 	add : function (key, value, time, path, domain, more) {
 		if (!key) return;
@@ -133,8 +133,12 @@ var cookie = {
 			}
 		}
 	},
-	/** 删除指定Cookie */
-	del : function (key) {
+	/**
+	 * 删除指定Cookie
+	 * @param key
+	 * @param domain 如果不为null则删除指定域的cookie,此域须为父子域.
+	 */
+	del : function (key, domain) {
 		var c = document.cookie;
 		if (c != "") {
 			var cookies = c.split(";");
@@ -143,7 +147,11 @@ var cookie = {
 				if (key == unescape(atob(unescape(map[0])))) {
 					var date = new Date();
 					date.setTime(date.getTime()-1);
-					document.cookie = escape(btoa(escape(key))) + "=;expires=" + date.toGMTString();
+					
+					var cookieText = "=;expires=" + date.toGMTString();
+					if (domain) cookieText += ";domain=" + domain;
+
+					document.cookie = escape(btoa(escape(key))) + cookieText;
 				}
 			}
 		}
@@ -164,13 +172,20 @@ var cookie = {
 	cookieExists : function () {
 		return document.cookie != "";
 	},
-	/** 清除Cookie */
-	clear : function () {
+	/**
+	 * 清除所有Cookie
+	 * @param domain 如果不为null则清除指定域的cookie,且此域需为父子域
+	 */
+	clear : function (domain) {
 		var date=new Date();
 		date.setTime(date.getTime() - 1);
+
+		var cookieText = "=;path=/;expires=" + date.toGMTString();
+		if (domain) cookieText += ";domain=" + domain;
+
 		var keys=document.cookie.match(/[^ =;]+(?=\=)/g);
 		if (keys) {
-			for (var i = keys.length; i--;) document.cookie=keys[i] + "=;path=/;expires=" + date.toGMTString();
+			for (var i = keys.length; i--;) document.cookie=keys[i] + cookieText;
 		}
 	}
 };
