@@ -1,29 +1,123 @@
-﻿# Shendi Web 库
->version 1.0<br>
->[sw v1.0](https://1711680493.github.io) change in 2020-2-20<br>
+﻿﻿# Shendi Web 库
+version 1.0
 
->sw.js		未压缩整合文件<br>
->sw.min.js	压缩整合文件<br>
+[sw v1.0](https://1711680493.github.io) change in 2022-09-03
 
->包含其他模块的引用,例如Ajax,可通过 ajax 直接使用<br>
->全局变量 sw,例如Ajax,可通过sw.ajax来使用<br>
->甚至可以直接使用其内函数/属性,例如ajax.$, 可通过 sw.$ 使用
 
-#### [Ajax](Ajax)
->封装了对 ajax 的操作
->>提供默认请求,post请求,可选是否跨域,以及自定义Ajax
 
-#### [Cookie](Cookie)
->封装了对 Cookie 的操作
->>Cookie加密存储
+>sw.js			未压缩整合文件
+>
+>sw.min.js	压缩整合文件
 
-#### [Loading](Loading)
+
+
+包含其他模块的引用,例如Ajax,可通过 ajax 直接使用
+
+全局变量 sw,例如Ajax,可通过sw.ajax来使用
+
+甚至可以直接使用其内函数/属性,例如ajax.$, 可通过 sw.$ 使用
+
+
+
+## [Ajax](Ajax)
+封装了对 ajax 的操作
+
+>提供默认请求,post请求,可选是否跨域,以及自定义Ajax
+>
+>支持上传与下载进度监控
+
+
+
+简单的示例，获取当前页的html代码
+
+```javascript
+ajax.$({
+	success : function (data) {
+		console.log(data);
+	}
+});
+```
+
+
+
+
+
+## [Cookie](Cookie)
+封装了对 Cookie 的操作
+
+>Cookie加密存储
+
+
+
+简单的示例
+
+```javascript
+cookie.add("key", "value");
+var value = cookie.get("key");
+if (cookie.exists("key")) {}
+cookie.del("key");
+cookie.clear();
+```
+
+
+
+
+
+## [Loading](Loading)
+
 >加载效果的封装
 
-#### [Win](Win)
->封装了对窗口的操作
->>在新窗口以Post请求打开页面等
 
-#### [Text](Text)
->字符串工具
->>可将字符串转json等
+
+## [Win](Win)
+封装了对窗口的操作
+
+>在新窗口以Post请求打开页面等
+
+
+
+简单的示例
+
+```javascript
+// 打开新窗口
+win.open("http://www.baidu.com", "GET", "wd=搜索&key=value");
+// 获取url参数
+var param = win.getUrlParam("key");
+```
+
+
+
+
+
+## [Text](Text)
+
+字符串工具
+
+>可将字符串转json等
+
+
+
+
+
+## [File](File)
+
+封装了关于文件的一些操作
+
+
+
+简单的示例
+
+```javascript
+// 点击元素上传文件
+var ele = document.getElementById("ele");
+ele.onclick = function () {
+    file.upFile(function (files) {
+        // 获取对象url
+        var url = file.getObjectURL(files[0]);
+        // 下载链接,例如 blob:// 链接
+        file.downUrl(url, files[0].name);
+        // 可将文件上传至服务器,files为文件信息
+    }, true);
+};
+```
+

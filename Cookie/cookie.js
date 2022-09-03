@@ -1,7 +1,7 @@
 /**
  * 封装了对 cookie 的操作
- * cookie v1.0 (https://1711680493.github.io)
- * changed in 2021-08-12
+ * cookie v1.0.1 (https://1711680493.github.io)
+ * changed in 2022-03-07
  * @author Shendi
  */
 var cookie = {
@@ -71,9 +71,11 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == unescape(atob(unescape(map[0])))) {
-					return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
-				}
+				try {
+					if (key == unescape(atob(unescape(map[0])))) {
+						return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
+					}
+				} catch (e) {}
 			}
 		}
 	},
@@ -88,15 +90,17 @@ var cookie = {
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == unescape(atob(unescape(map[0])))) {
-					var date = new Date();
-					date.setTime(date.getTime()-1);
-					
-					var cookieText = "=;expires=" + date.toGMTString();
-					if (domain) cookieText += ";domain=" + domain;
+				try {
+					if (key == unescape(atob(unescape(map[0])))) {
+						var date = new Date();
+						date.setTime(date.getTime()-1);
+						
+						var cookieText = "=;expires=" + date.toGMTString();
+						if (domain) cookieText += ";domain=" + domain;
 
-					document.cookie = escape(btoa(escape(key))) + cookieText;
-				}
+						document.cookie = escape(btoa(escape(key))) + cookieText;
+					}
+				} catch (e) {}
 			}
 		}
 	},
@@ -106,9 +110,11 @@ var cookie = {
 		if (c == "") return false;
 		var cookies = c.split(";");
 		for (let i = 0; i < cookies.length; i++) {
-			if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
-				return true;
-			}
+			try {
+				if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
+					return true;
+				}
+			} catch (e) {}
 		}
 		return false;
 	},

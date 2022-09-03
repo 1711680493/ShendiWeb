@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
- * sw v1.0 (https://1711680493.github.io)
- * changed in 2021-08-12
+ * sw v1.0.2 (https://1711680493.github.io)
+ * changed in 2022-09-03
  * @author Shendi
  */
 var sw;
@@ -56,8 +56,8 @@ var loading;
 
 /**
  * 封装了对 cookie 的操作
- * cookie v1.0 (https://1711680493.github.io)
- * changed in 2021-08-12
+ * cookie v1.0.1 (https://1711680493.github.io)
+ * changed in 2022-03-07
  * @author Shendi
  */
  var cookie = {
@@ -127,9 +127,11 @@ var loading;
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == unescape(atob(unescape(map[0])))) {
-					return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
-				}
+				try {
+					if (key == unescape(atob(unescape(map[0])))) {
+						return isEncode == null ? atob(unescape(map[1])) : unescape(atob(unescape(map[1])));
+					}
+				} catch (e) {}
 			}
 		}
 	},
@@ -144,15 +146,17 @@ var loading;
 			var cookies = c.split(";");
 			for (let i = 0; i < cookies.length; i++) {
 				let map = cookies[i].split("=");
-				if (key == unescape(atob(unescape(map[0])))) {
-					var date = new Date();
-					date.setTime(date.getTime()-1);
-					
-					var cookieText = "=;expires=" + date.toGMTString();
-					if (domain) cookieText += ";domain=" + domain;
+				try {
+					if (key == unescape(atob(unescape(map[0])))) {
+						var date = new Date();
+						date.setTime(date.getTime()-1);
+						
+						var cookieText = "=;expires=" + date.toGMTString();
+						if (domain) cookieText += ";domain=" + domain;
 
-					document.cookie = escape(btoa(escape(key))) + cookieText;
-				}
+						document.cookie = escape(btoa(escape(key))) + cookieText;
+					}
+				} catch (e) {}
 			}
 		}
 	},
@@ -162,9 +166,11 @@ var loading;
 		if (c == "") return false;
 		var cookies = c.split(";");
 		for (let i = 0; i < cookies.length; i++) {
-			if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
-				return true;
-			}
+			try {
+				if (key == unescape(atob(unescape(cookies[i].split("=")[0])))) {
+					return true;
+				}
+			} catch (e) {}
 		}
 		return false;
 	},
@@ -463,12 +469,71 @@ var text = {
     }
 };
 
+/**
+ * 封装了对文件的操作
+ * file v1.0 (https://1711680493.github.io)
+ * changed in 2022-09-03
+ * @author Shendi
+ */
+ var file = {
+    /**
+     * 上传文件,执行此函数会弹出文件选择框,用户选择文件后会执行回调函数
+     * @param callback 回调函数
+     * @param multiple 是否多选,true多选
+     */
+    upFile : function (callback, multiple) {
+        var file = document.createElement("input");
+        file.type = "file";
+        if (multiple == true) {
+            file.multiple = "multiple";
+        }
+        file.style.display = "none";
+    
+        file.onchange = function (e) {
+            callback(e.currentTarget.files);
+            document.body.removeChild(file);
+        };
+        document.body.append(file);
+    
+        file.click();
+    },
+    /**
+     * 获取文件对象地址
+     * @param file 用户上传的文件
+     * @returns 文件对象地址
+     */
+    getObjectURL : function (file) {
+        let url = null ; 
+        if (window.createObjectURL!=undefined) { // basic
+            url = window.createObjectURL(file) ;
+        } else if (window.URL!=undefined) { // mozilla(firefox)
+            url = window.URL.createObjectURL(file) ;
+        } else if (window.webkitURL!=undefined) { // webkit or chrome
+            url = window.webkitURL.createObjectURL(file) ;
+        }
+        return url ;
+    },
+    /**
+     * 下载指定链接.
+     * @param url   链接
+     * @param name  下载的文件名称
+     */
+    downUrl : function (url, name) {
+        var a = document.createElement("a");
+        var event = new MouseEvent("click");
+        a.download = name;
+        a.href = url;
+        a.dispatchEvent(event);
+    }
+};
+
 sw = {
 	// 所有模块引用
 	loading : loading,
 	cookie : cookie,
 	win : win,
 	ajax : ajax,
+	file : file,
 
 	// 直接引用
 	// loading
@@ -497,5 +562,10 @@ sw = {
 	$ : ajax.$,
 
 	// text
-	tojson : text.tojson
+	tojson : text.tojson,
+	
+	// file
+	upFile : file.upFile,
+	getObjectURL : file.getObjectURL,
+	downUrl : file.downUrl
 };
