@@ -1,4 +1,4 @@
-﻿﻿# Shendi Web 库
+﻿﻿﻿# Shendi Web 库
 version 1.0
 
 [sw v1.0](https://1711680493.github.io) change in 2022-09-03
@@ -120,4 +120,22 @@ ele.onclick = function () {
     }, true);
 };
 ```
+
+
+
+## [Date](Date)
+
+关于时间的一些操作
+
+
+
+简单的示例
+
+```javascript
+var myDate = date.get("2022-01-01");
+var timeHint = date.before(myDate);
+// 当前时间为 2022-01-02 则 timeHint="1天前"
+```
+
+
 
