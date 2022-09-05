@@ -1,7 +1,7 @@
 /**
  * 封装了对文件的操作
  * file v1.0 (https://1711680493.github.io)
- * changed in 2022-09-03
+ * changed in 2022-09-05
  * @author Shendi
  */
 var file = {
@@ -22,7 +22,7 @@ var file = {
             callback(e.currentTarget.files);
             document.body.removeChild(file);
         };
-        document.body.append(file);
+        document.body.appendChild(file);
     
         file.click();
     },
