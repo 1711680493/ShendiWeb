@@ -1,7 +1,7 @@
-﻿﻿﻿# Shendi Web 库
+﻿﻿﻿﻿﻿# Shendi Web 库
 version 1.0
 
-[sw v1.0](https://1711680493.github.io) change in 2022-09-03
+[sw v1.0](https://1711680493.github.io) change in 2022-09-09
 
 
 
@@ -93,7 +93,7 @@ var param = win.getUrlParam("key");
 
 字符串工具
 
->可将字符串转json等
+>可将字符串转json，字符串复制到剪切板等
 
 
 
@@ -119,6 +119,10 @@ ele.onclick = function () {
         // 可将文件上传至服务器,files为文件信息
     }, true);
 };
+
+// 将文本以文件的形式下载
+var str = "字符串123";
+file.downTxt(str, "字符串.txt");
 ```
 
 

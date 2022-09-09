@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
- * sw v1.0.2 (https://1711680493.github.io)
- * changed in 2022-09-05
+ * sw v1.0.3 (https://1711680493.github.io)
+ * changed in 2022-09-08
  * @author Shendi
  */
 var sw;
@@ -445,11 +445,11 @@ var ajax = {
 
 /**
  * 提供对字符串的简易操作.
- * text v1.0 (https://1711680493.github.io)
- * changed in 2021-2-20
+ * text v1.0.1 (https://1711680493.github.io)
+ * changed in 2022-09-08
  * @author Shendi
  */
-var text = {
+ var text = {
     /**
      * 将字符串内的 HTML 代码转义,用于防止 xxs 攻击.
      * @param {string} txt 字符串
@@ -466,13 +466,32 @@ var text = {
         return txt.trim().indexOf[0] == '['
             ? eval(txt.replace(/\r/g, "\\r").replace(/\n/g, "\\n"))
             : eval('(' + txt.replace(/\r/g, "\\r").replace(/\n/g, "\\n") + ')');
+    },
+    /**
+     * 复制文本到剪切板.
+     * @param txt 文本
+     */
+    copy : function (txt) {
+        var copy = document.createElement("p");
+        copy.innerText = txt;
+        copy.style.opacity = 0;
+        document.body.appendChild(copy);
+        var range = document.createRange();
+        range.selectNode(copy);
+        var selection = window.getSelection();
+        if (selection) {
+            if (selection.rangeCount > 0) selection.removeAllRanges();
+            selection.addRange(range);
+        }
+        document.execCommand("copy");
+        document.body.removeChild(copy);
     }
 };
 
 /**
  * 封装了对文件的操作
- * file v1.0 (https://1711680493.github.io)
- * changed in 2022-09-05
+ * file v1.0.1 (https://1711680493.github.io)
+ * changed in 2022-09-08
  * @author Shendi
  */
  var file = {
@@ -524,6 +543,23 @@ var text = {
         a.download = name;
         a.href = url;
         a.dispatchEvent(event);
+    },
+    /**
+     * 下载文本.
+     * @param txt   文本
+     * @param name  文件名
+     */
+    downTxt : function (txt, name) {
+        var a = document.createElement('a');
+        a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt);
+        a.download = name;
+
+        a.style.display = 'none';
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
     }
 };
 
@@ -628,11 +664,13 @@ sw = {
 
 	// text
 	tojson : text.tojson,
+	copy : text.copy,
 	
 	// file
 	upFile : file.upFile,
 	getObjectURL : file.getObjectURL,
 	downUrl : file.downUrl,
+	downTxt : file.downTxt,
 
 	// date
 	before : date.before

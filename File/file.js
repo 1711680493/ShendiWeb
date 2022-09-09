@@ -1,7 +1,7 @@
 /**
  * 封装了对文件的操作
- * file v1.0 (https://1711680493.github.io)
- * changed in 2022-09-05
+ * file v1.0.1 (https://1711680493.github.io)
+ * changed in 2022-09-08
  * @author Shendi
  */
 var file = {
@@ -53,5 +53,22 @@ var file = {
         a.download = name;
         a.href = url;
         a.dispatchEvent(event);
+    },
+    /**
+     * 下载文本.
+     * @param txt   文本
+     * @param name  文件名
+     */
+    downTxt : function (txt, name) {
+        var a = document.createElement('a');
+        a.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent(txt);
+        a.download = name;
+
+        a.style.display = 'none';
+        document.body.appendChild(a);
+
+        a.click();
+
+        document.body.removeChild(a);
     }
 };
