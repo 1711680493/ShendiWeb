@@ -1,7 +1,7 @@
 /**
  * 提供对字符串的简易操作.
- * text v1.0.1 (https://1711680493.github.io)
- * changed in 2022-09-08
+ * text v1.0.2 (https://1711680493.github.io)
+ * changed in 2022-10-25
  * @author Shendi
  */
 var text = {
@@ -23,11 +23,11 @@ var text = {
             : eval('(' + txt.replace(/\r/g, "\\r").replace(/\n/g, "\\n") + ')');
     },
     /**
-     * 复制文本到剪切板.
+     * 将内容原封不动的复制到剪切板.
      * @param txt 文本
      */
     copy : function (txt) {
-        var copy = document.createElement("p");
+        var copy = document.createElement("pre");
         copy.innerText = txt;
         copy.style.opacity = 0;
         document.body.appendChild(copy);
