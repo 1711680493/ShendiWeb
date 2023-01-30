@@ -1,7 +1,7 @@
 /**
  * 提供对字符串的简易操作.
  * text v1.0.2 (https://1711680493.github.io)
- * changed in 2022-10-25
+ * changed in 2023-01-30
  * @author Shendi
  */
 var text = {
@@ -40,5 +40,20 @@ var text = {
         }
         document.execCommand("copy");
         document.body.removeChild(copy);
+    },
+    /**
+     * 从指定字符串去除指定字符串的前后空格
+     * 例如 trimByChar("1 . 2   .  3", "."), 结果为 1.2.3
+     */
+    trimByChar : function(str, c) {
+        if (str == null || str == "") return "";
+    
+        var result = "";
+        var chars = str.split(c);
+        for (var i = 0; i < chars.length; i++) {
+            result += chars[i].trim() + c;
+        }
+    
+        return result.substring(0, result.length-c.length);
     }
 };
