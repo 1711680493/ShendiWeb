@@ -505,21 +505,25 @@ var text = {
 
 /**
  * 封装了对文件的操作
- * file v1.0.1 (https://1711680493.github.io)
- * changed in 2022-09-08
+ * file v1.0.2 (https://1711680493.github.io)
+ * changed in 2023-01-30
  * @author Shendi
  */
- var file = {
+var file = {
     /**
      * 上传文件,执行此函数会弹出文件选择框,用户选择文件后会执行回调函数
      * @param callback 回调函数
      * @param multiple 是否多选,true多选
+     * @param isDir    是否选择目录,不支持ie
      */
-    upFile : function (callback, multiple) {
+    upFile : function (callback, multiple, isDir) {
         var file = document.createElement("input");
         file.type = "file";
         if (multiple == true) {
             file.multiple = "multiple";
+        }
+        if (isDir == true) {
+            file.webkitdirectory = true;
         }
         file.style.display = "none";
     
