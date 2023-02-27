@@ -1,10 +1,11 @@
 /**
  * 日期工具,引入此js则 Date类默认增加format函数用于格式化.
- * date v1.0 (https://1711680493.github.io)
- * changed in 2022-09-05
+ * date v1.0.1 (https://1711680493.github.io)
+ * changed in 2023-02-27
  * @author Shendi
  */
 try {
+    // 日期格式化
     Date.prototype.format = function (fmt) {
         var o = {
             "M+": this.getMonth() + 1,
@@ -19,7 +20,19 @@ try {
         for (var k in o)
         if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
         return fmt;
-    }
+    };
+    // 获取本周星期几
+    Date.prototype.getWeek = function () {
+        switch (this.getDay()) {
+            case 0: return "星期日";
+            case 1: return "星期一";
+            case 2: return "星期二";
+            case 3: return "星期三";
+            case 4: return "星期四";
+            case 5: return "星期五";
+            case 6: return "星期六";
+        }
+    };
 } catch (e) {console.log("当前浏览器不支持 prototype");}
 
 var date = {
@@ -59,5 +72,5 @@ var date = {
         } else if (minC >= 1) {
             return"" + parseInt(minC) + "分钟前";
         } else return "刚刚";
-    }
+    },
 };
