@@ -1,15 +1,15 @@
-﻿﻿﻿﻿﻿# Shendi Web 库
+﻿﻿﻿﻿﻿﻿# Shendi Web 库
 version 1.0
 
-[sw v1.0](https://1711680493.github.io) change in 2022-09-09
+[sw v1.0.1](https://1711680493.github.io) change in 2023-02-27
 
-
+<br>
 
 >sw.js			未压缩整合文件
 >
 >sw.min.js	压缩整合文件
 
-
+<br>
 
 包含其他模块的引用,例如Ajax,可通过 ajax 直接使用
 
@@ -17,7 +17,7 @@ version 1.0
 
 甚至可以直接使用其内函数/属性,例如ajax.$, 可通过 sw.$ 使用
 
-
+<br>
 
 ## [Ajax](Ajax)
 封装了对 ajax 的操作
@@ -131,7 +131,7 @@ file.downTxt(str, "字符串.txt");
 
 关于时间的一些操作
 
-
+<br>
 
 简单的示例
 
