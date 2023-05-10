@@ -54,19 +54,21 @@ var theme = {
      * @param {String} tName 指定切换的主题名称,不指定则默认循环
      */
     switchT : function (tName) {
-        var tIndex;
+        var tIndex = -1;
         if (tName == null || tName == "") {
             // 本地获取当前主题,-1代表默认主题
             var curThemeIndex = localStorage.getItem("_sw_theme_cur");
             if (curThemeIndex != null && curThemeIndex != "") {
                 curThemeIndex = parseInt(curThemeIndex);
-                tIndex = curThemeIndex + 1;
-                if (tIndex >= theme.list.length) {
-                    tIndex = -1;
-                    tName = null;
-                } else {
-                    tName = theme.list[tIndex];
-                }
+                tIndex = curThemeIndex;
+            }
+
+            tIndex += 1;
+            if (tIndex >= theme.list.length) {
+                tIndex = -1;
+                tName = null;
+            } else {
+                tName = theme.list[tIndex];
             }
         } else {
             for (var i = 0; i < theme.list.length; i++) {
