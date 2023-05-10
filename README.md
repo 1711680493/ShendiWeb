@@ -1,7 +1,7 @@
-﻿﻿﻿﻿﻿﻿# Shendi Web 库
+﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
 version 1.0
 
-[sw v1.0.1](https://1711680493.github.io) change in 2023-02-27
+[sw v1.0.7](https://1711680493.github.io) change in 2023-05-01
 
 <br>
 
@@ -26,7 +26,7 @@ version 1.0
 >
 >支持上传与下载进度监控
 
-
+<br>
 
 简单的示例，获取当前页的html代码
 
@@ -38,16 +38,16 @@ ajax.$({
 });
 ```
 
+<br>
 
-
-
+<br>
 
 ## [Cookie](Cookie)
 封装了对 Cookie 的操作
 
 >Cookie加密存储
 
-
+<br>
 
 简单的示例
 
@@ -59,22 +59,26 @@ cookie.del("key");
 cookie.clear();
 ```
 
+<br>
 
-
-
+<br>
 
 ## [Loading](Loading)
 
 >加载效果的封装
 
+<br>
 
+<br>
 
 ## [Win](Win)
 封装了对窗口的操作
 
 >在新窗口以Post请求打开页面等
 
+<br>
 
+<br>
 
 简单的示例
 
@@ -85,9 +89,9 @@ win.open("http://www.baidu.com", "GET", "wd=搜索&key=value");
 var param = win.getUrlParam("key");
 ```
 
+<br>
 
-
-
+<br>
 
 ## [Text](Text)
 
@@ -95,15 +99,15 @@ var param = win.getUrlParam("key");
 
 >可将字符串转json，字符串复制到剪切板等
 
+<br>
 
-
-
+<br>
 
 ## [File](File)
 
 封装了关于文件的一些操作
 
-
+<br>
 
 简单的示例
 
@@ -125,7 +129,9 @@ var str = "字符串123";
 file.downTxt(str, "字符串.txt");
 ```
 
+<br>
 
+<br>
 
 ## [Date](Date)
 
@@ -141,5 +147,25 @@ var timeHint = date.before(myDate);
 // 当前时间为 2022-01-02 则 timeHint="1天前"
 ```
 
+<br>
 
+<br>
 
+## [Valid](Valid)
+
+封装了一些常用的参数校验
+
+<br>
+
+简单的示例
+
+```javascript
+let email = "";
+if (valid.email(email)) {
+    console.log("是邮箱");
+} else {
+    console.log("不是邮箱")
+}
+```
+
+<br>
