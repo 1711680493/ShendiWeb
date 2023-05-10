@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
+﻿﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
 version 1.0
 
 [sw v1.0.7](https://1711680493.github.io) change in 2023-05-01
@@ -167,5 +167,13 @@ if (valid.email(email)) {
     console.log("不是邮箱")
 }
 ```
+
+<br>
+
+## [Theme](Theme)
+
+多主题插件
+
+<br>
 
 <br>
