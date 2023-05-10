@@ -717,8 +717,9 @@ var valid = {
      */
     addPath : function (path) {
         if (Array.isArray(path)) {
+            var len = theme.CSS_PATH.length;
             for (var i = 0; i < path.length; i++) {
-                theme.CSS_PATH[theme.CSS_PATH.length + i] = path[i];
+                theme.CSS_PATH[len + i] = path[i];
             }
         } else {
             theme.CSS_PATH[theme.CSS_PATH.length] = path;
@@ -755,17 +756,17 @@ var valid = {
      * @param {String} tName 指定切换的主题名称,不指定则默认循环
      */
     switchT : function (tName) {
-        var tIndex = 0;
+        var tIndex;
         if (tName == null || tName == "") {
             // 本地获取当前主题,-1代表默认主题
             var curThemeIndex = localStorage.getItem("_sw_theme_cur");
             if (curThemeIndex != null && curThemeIndex != "") {
                 curThemeIndex = parseInt(curThemeIndex);
-                if (curThemeIndex == -1) {
-                    tName = theme.list[tIndex];
+                tIndex = curThemeIndex + 1;
+                if (tIndex >= theme.list.length) {
+                    tIndex = -1;
+                    tName = null;
                 } else {
-                    tIndex = curThemeIndex + 1;
-                    if (tIndex >= theme.list.length) tIndex = 0;
                     tName = theme.list[tIndex];
                 }
             }
@@ -780,9 +781,9 @@ var valid = {
 
         // 移除主题css
         document.querySelectorAll("[sw-theme]").forEach(function (e) {e.parentNode.removeChild(e);});
-        
+
         localStorage.setItem("_sw_theme_cur", tIndex);
-        theme.init();
+        if (tName != null) theme.init();
     }
 };
 
