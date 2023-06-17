@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
- * sw v1.0.8 (https://1711680493.github.io)
- * changed in 2023-05-10
+ * sw v1.0.9 (https://1711680493.github.io)
+ * changed in 2023-06-17
  * @author Shendi
  */
 var sw;
@@ -198,8 +198,8 @@ var loading;
 
 /**
  * 封装了对窗口的操作.
- * win v1.0 (https://1711680493.github.io)
- * changed in 2021-5-14
+ * win v1.0.1 (https://1711680493.github.io)
+ * changed in 2021-06-17
  * @author Shendi
  */
  var win = {
@@ -238,9 +238,50 @@ var loading;
 		var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
         var r = window.location.search.substr(1).match(reg);
         if (r != null) return decodeURI(r[2]); return null;
+	},
+	/**
+	 * url参数是否存在,有的url参数没有值，例如&a.
+	 * @param {string} name 参数名
+	 * @returns true存在，false不存在
+	 */
+	hasUrlParam : function (name) {
+		return location.href.indexOf("?" + name) != -1 || location.href.indexOf("&" + name) != -1;
+	},
+	/**
+	 * 删除url的参数,会改变url但不刷新
+	 * @param names 参数列表
+	 * @param param 当不为空时，将在此参数上进行删除参数，格式应为 url 参数格式，例如 a=b&b=c
+	 * @returns param不为空时返回字符串
+	 */
+	delUrlParam : function (names, param) {
+		let p = param == null ? location.search : param;
+		if (p.charAt(0) == "?") p = p.substring(1);
+		if (p == "") return "";
+		p = p.split("&");
+
+		if (typeof names == "string") {
+			names = [names];
+		}
+
+		let result = "";
+		w:for (var i = 0; i < p.length; i++) {
+			var kv = p[i].split("=");
+			for (var j = 0; j < names.length; j++) {
+				if (kv[0] == names[j]) {
+					continue w;
+				}
+			}
+			result += "&" + p[i];
+		}
+
+		result = result.length == 0 ? "" : "?" + result.substring(1);
+
+		if (param == null) {
+			window.history.replaceState({}, "", location.pathname + result + location.hash);
+		}
+		return result;
 	}
 };
-
 
 /**
  * 封装了对 ajax 的操作
@@ -706,7 +747,7 @@ var valid = {
  * changed in 2023-05-10
  * @author Shendi
  */
- var theme = {
+var theme = {
     // 主题文件路径列表
     CSS_PATH : [],
     // 主题列表
@@ -818,6 +859,8 @@ sw = {
 	// win
 	open : win.open,
 	getUrlParam : win.getUrlParam,
+	hasUrlParam : win.hasUrlParam,
+	delUrlParam : win.delUrlParam,
 
 	// ajax
 	xhr : ajax.xhr,

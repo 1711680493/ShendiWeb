@@ -1,4 +1,4 @@
-﻿﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
+﻿﻿﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
 version 1.0
 
 [sw v1.0.7](https://1711680493.github.io) change in 2023-05-01
@@ -19,7 +19,10 @@ version 1.0
 
 <br>
 
+<br>
+
 ## [Ajax](Ajax)
+
 封装了对 ajax 的操作
 
 >提供默认请求,post请求,可选是否跨域,以及自定义Ajax
