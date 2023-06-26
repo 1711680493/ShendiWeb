@@ -1,7 +1,7 @@
 /**
  * 整合了其他js的文件
- * sw v1.0.9 (https://1711680493.github.io)
- * changed in 2023-06-17
+ * sw v1.0.10 (https://1711680493.github.io)
+ * changed in 2023-06-26
  * @author Shendi
  */
 var sw;
@@ -546,8 +546,8 @@ var text = {
 
 /**
  * 封装了对文件的操作
- * file v1.0.2 (https://1711680493.github.io)
- * changed in 2023-01-30
+ * file v1.0.3 (https://1711680493.github.io)
+ * changed in 2023-06-26
  * @author Shendi
  */
 var file = {
@@ -620,7 +620,23 @@ var file = {
         a.click();
 
         document.body.removeChild(a);
-    }
+    },
+    /**
+     * 读取图片.
+     * @param file 上传的图片文件
+     * @param callback 处理完的回调,一参数为image对象
+     */
+    readImg : function (file, callback) {
+        var fimg = new FileReader();
+        fimg.readAsDataURL(file);
+        fimg.onload = function () {
+            var img = new Image();
+            img.src = fimg.result;
+            img.onload = function () {
+                callback(img);
+            };
+        };
+    },
 };
 
 /**
@@ -878,6 +894,7 @@ sw = {
 	getObjectURL : file.getObjectURL,
 	downUrl : file.downUrl,
 	downTxt : file.downTxt,
+	readImg : file.readImg,
 
 	// date
 	before : date.before,
