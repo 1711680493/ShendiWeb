@@ -1,7 +1,8 @@
-﻿﻿﻿﻿﻿﻿﻿﻿﻿# Shendi Web 库
-version 1.0
+﻿﻿﻿# Shendi Web 库
 
-[sw v1.0.7](https://1711680493.github.io) change in 2023-05-01
+[sw v1.0.10](https://1711680493.github.io)
+
+change in 2024-01-10
 
 <br>
 

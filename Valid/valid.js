@@ -1,7 +1,7 @@
 /**
  * 提供对参数校验的操作.
- * valid v1.0.0 (https://1711680493.github.io)
- * changed in 2023-05-01
+ * valid v1.0.1 (https://1711680493.github.io)
+ * changed in 2024-01-10
  * @author Shendi
  */
 var valid = {
@@ -15,7 +15,7 @@ var valid = {
     },
     /**
      * 校验手机号
-     * @param {string} email 
+     * @param {string} phone 
      * @returns 手机号是否有效
      */
     phone : function (phone) {
@@ -23,11 +23,11 @@ var valid = {
     },
     /**
      * 校验金额
-     * @param {string} email 
-     * @returns 手机号是否有效
+     * @param {string} money
+     * @returns 金额是否有效
      */
     money : function (money) {
-        return /^\d{1,}(\.\d{0,2})?$/.test(money);
+        return /^-?\d+(\.\d{1,2})?$/.test(money);
     },
     /**
      * 校验数字
